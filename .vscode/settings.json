@@ -1,0 +1,16 @@
+{
+  "idf.extensionActivationMode": "always",
+  "idf.eimIdfJsonPath": "C:/Espressif/tools/eim_idf.json",
+  "idf.currentSetup": "C:/Espressif/frameworks/esp-idf-v5.5.5",
+  "idf.gitPathWin": "C:/Espressif/tools/idf-git/2.44.0/cmd/git.exe",
+  "idf.portWin": "COM25",
+  "idf.monitorPort": "",
+  "idf.flashType": "UART",
+  "idf.flashBaudRate": "460800",
+  "idf.monitorBaudRate": "921600",
+  "idf.flashPartitionToUse": "all",
+  "idf.customExtraVars": {
+    "IDF_TARGET": "esp32p4"
+  },
+  "idf.buildPath": "${workspaceFolder}/build"
+}

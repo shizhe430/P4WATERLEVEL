@@ -1,0 +1,8 @@
+build/
+sdkconfig.old
+.vscode/.ropeproject/
+.vscode/ipch/
+*.log
+.cache/
+tmp/
+capture_*.jpg

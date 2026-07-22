@@ -1,0 +1,15 @@
+diff --git a/components/esp_driver_cam/dvp/src/esp_cam_ctlr_dvp_cam.c b/components/esp_driver_cam/dvp/src/esp_cam_ctlr_dvp_cam.c
+--- a/components/esp_driver_cam/dvp/src/esp_cam_ctlr_dvp_cam.c
++++ b/components/esp_driver_cam/dvp/src/esp_cam_ctlr_dvp_cam.c
+@@
+ static uint32_t IRAM_ATTR esp_cam_ctlr_dvp_get_jpeg_size(const uint8_t *buffer, uint32_t size)
+ {
+     /* Check JPEG header TAG: ff:d8 */
+ 
++    if ((buffer == NULL) || (size < 4)) {
++        return 0;
++    }
++
+     if (buffer[0] != 0xff || buffer[1] != 0xd8) {
+         return 0;
+     }

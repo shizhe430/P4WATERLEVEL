@@ -1,0 +1,43 @@
+# Progress
+
+## 2026-07-22
+
+- Detected COM25 and confirmed the Cursor workspace port selection.
+- Confirmed the current diagnostic firmware and camera GPIO configuration.
+- Connected to the ROM downloader on COM25 and identified the chip as ESP32-P4 revision v1.0.
+- Changed the project minimum supported revision from v3.1 to v1.0 in both defaults and active sdkconfig.
+- Rebuilt and flashed the pre-v3 firmware successfully; the application reached OV2640 initialization.
+- Captured the first hardware log: OV2640 SCCB transmit failed on GPIO14/15 and `/dev/video0` did not open.
+- Disabled the unintended MIPI camera/device configuration and retained only the DVP camera path.
+- Rebuilt, flashed, and confirmed the pure-DVP image boots; SCCB still fails on SCL GPIO14/SDA GPIO15.
+- Started the SCCB line-order test with SCL GPIO15/SDA GPIO14.
+- Rebuilt, flashed, and tested the swapped SCCB line order; OV2640 still did not acknowledge.
+- Started the development-board I2C header test with SCL GPIO32/SDA GPIO33.
+- Rebuilt, flashed, and tested GPIO32/33; no SCCB device acknowledged.
+- Restored the intended GPIO14/15 mapping and added a one-shot powered SCCB scan with bus/control-level diagnostics.
+- The powered scan found zero devices and 112 timeouts while SCL/SDA were statically high.
+- Replaced the 100 kHz address scan with a direct 10 kHz OV2640 bank/PID transaction and enabled control-pin input readback.
+- The hardware I2C transaction returned `ESP_ERR_INVALID_STATE`; replaced it with a low-speed GPIO open-drain SCCB transaction to observe ACK independently of the ESP-IDF I2C peripheral driver.
+- Rebuilt, flashed, and ran the GPIO SCCB diagnostic; address 0x30 and the complete 7-bit scan returned no ACK.
+- Firmware-side DVP XCLK and active control levels were confirmed: XCLK=20 MHz, RESET=1, PWDN=0, SCL=1, SDA=1.
+- After the user corrected the PWDN wire, SCCB still returned no ACK. Added a four-state RESET/PWDN control test to detect swapped or inverted control wiring.
+- Removed the control-state experiment and aligned bring-up with the verified STM32 blueprint: onboard oscillator, 30/80 ms PWDN timing, and two 30/80/150 ms RESETB cycles. Disabled ESP-Video control-pin toggling after the pre-sequence.
+- Rendered and inspected the ATK-MC2640 user manual and V2.2 schematic to establish the exact 2x9 connector orientation and pin order.
+- Confirmed from the module schematic that SCL/SDA have no onboard pull-ups; the current ESP bit-bang diagnostic supplies internal pull-ups.
+- Found that the active `sdkconfig` still assigns the unused DVP XCLK output to GPIO20, despite the module using an onboard 24 MHz oscillator.
+- Confirmed GPIO14-GPIO17 are valid 3.3 V common IOs from the DNESP32P4M schematic and IO allocation workbook.
+- Reworked the diagnostic SCCB path to match the STM32 byte timing, ignore the SCCB ninth bit, issue the same software reset, retry three times, and read the full MID/PID pair.
+- Added an SCCB line-drive self-test and corrected the local DVP XCLK Kconfig range so `-1` is retained in generated configuration.
+- The first single-thread full rebuild exceeded the 10-minute command limit after completing roughly 1100 objects; generated `sdkconfig.h` correctly contains `CONFIG_EXAMPLE_DVP_XCLK_PIN -1`.
+- Completed the incremental build, flashed the new image to COM25, and captured a clean 921600-baud application log.
+- Verified the SCCB line-drive test passes (`11/01/10`) but all three STM32-style ID attempts still return `MID=0xFFFF PID=0xFFFF`.
+- Added, built, flashed, and ran a 20 ms DVP activity test; PCLK/VSYNC/HREF each showed only 6 correlated transitions, indicating no valid sensor output.
+- Moved camera to the verified 3.3 V GPIO mapping: SCCB GPIO32/33, RESET/PWDN GPIO16/17, DVP data GPIO18/19/20/21/22/23/26/27, PCLK GPIO28, VSYNC GPIO29, HREF GPIO30, XCLK disabled.
+- Rebuilt and flashed the final camera firmware to COM25.
+- Confirmed OV2640 SCCB identification passes and DVP stream starts at 320x240 JPEG.
+- Added a local ESP-IDF DVP JPEG empty-buffer guard to prevent zero-byte ISR panics.
+- Adjusted the OV2640 QVGA JPEG register table to match the STM32-verified settings more closely.
+- Added UART driver initialization before raw JPEG output and disabled logs before binary output.
+- Verified the final raw JPEG stream: 20 seconds captured 144 complete JPEG frames on COM25 at 921600 baud.
+- Saved and visually inspected `capture_clean.jpg`; the frame rendered as a real camera image.
+- Added visible project documentation in `docs/ESP32P4_BRINGUP_NOTES.md`, `docs/PIN_MAPPING.md`, and `patches/esp-idf-v5.5.5-dvp-empty-jpeg-guard.patch`.
