@@ -46,6 +46,7 @@ idf.py -p COM25 -b 460800 flash
 - 不再重复踩坑清单：[docs/KNOWN_ISSUES.md](docs/KNOWN_ISSUES.md)
 - 引脚映射与模块审计：[docs/PIN_MAPPING.md](docs/PIN_MAPPING.md)
 - 后续迁移流程：[docs/MIGRATION_FLOW.md](docs/MIGRATION_FLOW.md)
+- 工程转移总规划：[docs/TRANSFER_PLAN.md](docs/TRANSFER_PLAN.md)
 
 ## 当前原则
 
