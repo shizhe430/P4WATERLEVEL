@@ -14,6 +14,8 @@
 | 直接调用 `uart_write_bytes()` | ESP-IDF 日志能输出不代表 UART driver API 已安装 | 原始 JPEG 输出前必须安装并配置 UART driver |
 | 没处理空 JPEG buffer | ESP-IDF DVP 驱动可能在 0 字节帧上崩溃 | 保留本仓库 `patches/esp-idf-v5.5.5-dvp-empty-jpeg-guard.patch` 记录的 IDF 补丁 |
 | 引脚表和 `sdkconfig` 不同步 | 固件打印的 SCL/SDA 还是旧引脚，实际接线已变 | 每次改 GPIO，同时更新 `sdkconfig.defaults.esp32p4`、`sdkconfig` 和 `docs/PIN_MAPPING.md` |
+| 照开发板丝印直接用 U1TX/U1RX | 正点原子表中 U1TX/U1RX 是 GPIO26/GPIO27，但当前已接摄像头 D6/D7 | C6 UART 候选改用 GPIO31/GPIO36，不占用摄像头和 UART0 |
+| 照开发板 IIC 口接语音模块 | 开发板 IIC_SCL/IIC_SDA 是 GPIO32/GPIO33，但当前已接摄像头 SCCB | 语音 I2C 后续另选非摄像头 3.3V GPIO |
 
 ## 当前摄像头基线
 
