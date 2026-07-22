@@ -16,6 +16,7 @@
 | 引脚表和 `sdkconfig` 不同步 | 固件打印的 SCL/SDA 还是旧引脚，实际接线已变 | 每次改 GPIO，同时更新 `sdkconfig.defaults.esp32p4`、`sdkconfig` 和 `docs/PIN_MAPPING.md` |
 | 照开发板丝印直接用 U1TX/U1RX | 正点原子表中 U1TX/U1RX 是 GPIO26/GPIO27，但当前已接摄像头 D6/D7 | C6 UART 候选改用 GPIO31/GPIO36，不占用摄像头和 UART0 |
 | 照开发板 IIC 口接语音模块 | 开发板 IIC_SCL/IIC_SDA 是 GPIO32/GPIO33，但当前已接摄像头 SCCB | 语音 I2C 后续另选非摄像头 3.3V GPIO |
+| 把板上 `UART/TX/RX` 区域当作空闲串口 | 该区域对应板载 USB 转串口，资料中 UART0 为 GPIO37/GPIO38；当前固件正在用它输出 JPEG | 摄像头调试阶段不要把 C6 接到 UART0。C6 先用独立 GPIO 重新映射 UART |
 
 ## 当前摄像头基线
 
@@ -25,6 +26,12 @@
 - PCLK GPIO28，VSYNC GPIO29，HREF/DE GPIO30
 - XCLK 不接
 - UART0 TX GPIO37，RX GPIO38，921600 bit/s
+
+## 2026-07-22 GPIO31/GPIO36 测量
+
+- 现象：GPIO36 空闲约 3.3V，GPIO31 空闲约 0V。
+- 判断：GPIO31 在当前摄像头固件里还没有配置成 UART TX，空闲为 0V 不等于不能用。真正作为 UART TX 后，空闲电平应为高。
+- 处理：C6 串口联调前，先烧一个最小 UART 测试固件，把 GPIO31 配成 TX、GPIO36 配成 RX，再复测 GPIO31 是否变为 3.3V 空闲。
 
 ## 新问题记录模板
 

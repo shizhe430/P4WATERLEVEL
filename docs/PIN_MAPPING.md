@@ -58,7 +58,7 @@
 | GPIO28-GPIO31 | 开发板 SPI_CS/MOSI/SCK/MISO，不接模块时可独立 | GPIO28-GPIO30 已用于摄像头 PCLK/VSYNC/HREF；GPIO31 可作为 C6 UART 候选 |
 | GPIO32/GPIO33 | 开发板 IIC_SCL/IIC_SDA | 已用于摄像头 SCCB，不能再作为语音 I2C |
 | GPIO36 | 开发板 IIC_INT，小系统板独立 | 可作为 C6 UART 候选 |
-| GPIO37/GPIO38 | UART0 TX/RX | 当前用于 JPEG 调试输出 |
+| GPIO37/GPIO38 | UART0 TX/RX，板上 `UART/TX/RX` 区域及 USB 转串口 | 当前用于 JPEG 调试输出，不作为 C6 通信口 |
 | GPIO46-GPIO50 | 开发板 I2S 接口，小系统板表中独立 | 可作为后续 OLED/语音/指纹候选，但要结合底板是否接 I2S 再定 |
 | GPIO53 | LCD_BL，不接屏幕时可独立 | 可作为低风险普通输出候选 |
 
