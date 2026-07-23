@@ -1,0 +1,32 @@
+{
+  "source_onnx": "C:\\Users\\heshizhe\\Desktop\\cnntry\\water_ai_topview\\workspace\\v3_w05_origline_plus_newdata_qat_repacked_float.onnx",
+  "source_onnx_sha256": "8cf3d19e93376cf0f2a4a0fe00e26f0a8741fbc043cee762ea9df522ab56c0fc",
+  "working_onnx": "C:\\Users\\heshizhe\\Desktop\\cnntry\\water_ai_topview\\workspace\\espdl_p4\\waterlevel_v3_from_qat_float_int8_source_copy.onnx",
+  "calibration_npz": "C:\\Users\\heshizhe\\Desktop\\cnntry\\water_ai_topview\\workspace\\calib_500_weighted_plus_hardset.npz",
+  "calibration_key": "input",
+  "calibration_shape": [
+    500,
+    1,
+    224,
+    224
+  ],
+  "calibration_min": 0.0,
+  "calibration_max": 1.0,
+  "target": "esp32p4",
+  "num_bits": 8,
+  "input_shape": [
+    1,
+    1,
+    224,
+    224
+  ],
+  "espdl": "C:\\Users\\heshizhe\\Desktop\\cnntry\\water_ai_topview\\workspace\\espdl_p4\\waterlevel_v3_from_qat_float_int8.espdl",
+  "working_onnx_sha256_after_conversion": "e750c7e147879d8fc6397986789e32cf0327201264b31531190c9a5252bec01b",
+  "exported_files": [
+    "waterlevel_v3_from_qat_float_int8.espdl",
+    "waterlevel_v3_from_qat_float_int8.info",
+    "waterlevel_v3_from_qat_float_int8.json",
+    "waterlevel_v3_from_qat_float_int8_conversion_manifest.json",
+    "waterlevel_v3_from_qat_float_int8_source_copy.onnx"
+  ]
+}
